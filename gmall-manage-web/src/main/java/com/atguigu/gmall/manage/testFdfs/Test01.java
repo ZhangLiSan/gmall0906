@@ -20,7 +20,7 @@ public class Test01 {
         StorageClient storageClient = new StorageClient(connection,null);
 
         // 上传文件
-        String[] gifs = storageClient.upload_file("D:\\a.gif", "gif", null);
+        String[] gifs = storageClient.upload_file("D:\\111.jpg", "jpg", null);
 
         for (String gif : gifs) {
             System.out.println(gif);

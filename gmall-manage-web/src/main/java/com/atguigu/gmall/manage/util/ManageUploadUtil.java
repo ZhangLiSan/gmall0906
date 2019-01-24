@@ -13,7 +13,7 @@ public class ManageUploadUtil {
 
     public static String imgUpolad(MultipartFile multipartFile) {
 
-        String imgUrl = "http://192.168.222.20";// 常量类
+        String imgUrl = "http://192.168.117.150";// 常量类
 
         try {
             ClientGlobal.init("tracker.conf");

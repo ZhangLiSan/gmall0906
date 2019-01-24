@@ -28,7 +28,72 @@ public class AttrServiceImpl implements AttrService{
     BaseCatalog3Mapper baseCatalog3Mapper;
 
     @Override
+    public List<BaseAttrValue> getAttrValueList(String attrId) {
+
+        BaseAttrValue baseAttrValue = new BaseAttrValue();
+        baseAttrValue.setAttrId(attrId);
+        List<BaseAttrValue> baseAttrValues = baseAttrValueMapper.select(baseAttrValue);
+        return baseAttrValues;
+    }
+
+    @Override
+    public List<BaseAttrInfo> getAttrListByValueIds(String join) {
+
+       List<BaseAttrInfo> baseAttrInfos = baseAttrInfoMapper.selectAttListByValueIds(join);
+
+       return baseAttrInfos ;
+
+    }
+
+
+    @Override
+    public void updateAttr(BaseAttrInfo baseAttrInfo) {
+
+//        baseAttrInfoMapper.updateByPrimaryKey(baseAttrInfo);
+//        String attrId = baseAttrInfo.getId();
+//        List<BaseAttrValue> attrValueList = baseAttrInfo.getAttrValueList();
+//
+//        for (BaseAttrValue baseAttrValue : attrValueList) {
+//            baseAttrValue.setAttrId(attrId);
+//            baseAttrValueMapper.updateByPrimaryKeySelective(baseAttrValue);
+//        }
+        String attrId = baseAttrInfo.getId();
+        //如果有主键就进行更新
+        if(attrId!=null&&attrId.length()>0){
+            //执行更新
+            baseAttrInfoMapper.updateByPrimaryKey(baseAttrInfo);
+        }else{
+            //没有主键
+            //判断主键是否为空
+            if(attrId!=null&&attrId.length()==0){
+                //主键为空，设置为null
+                baseAttrInfo.setId(null);
+            }
+            //执行插入
+            baseAttrInfoMapper.insertSelective(baseAttrInfo);
+        }
+
+        //清空baseattrvalue中的值
+        BaseAttrValue attrValue = new BaseAttrValue();
+        attrValue.setAttrId(attrId);
+        baseAttrValueMapper.delete(attrValue);
+        List<BaseAttrValue> attrValueList = baseAttrInfo.getAttrValueList();
+        if(attrValueList!=null&&attrValueList.size()>0){
+            for (BaseAttrValue baseAttrValue : attrValueList) {
+                //判断主键是否为空
+                if(baseAttrValue.getId()!=null&&baseAttrValue.getId().length()==0){
+                    baseAttrValue.setId(null);
+                }
+                baseAttrValue.setAttrId(attrId);
+                baseAttrValueMapper.insertSelective(baseAttrValue);
+            }
+        }
+
+    }
+
+    @Override
     public List<BaseCatalog1> getCatalog1() {
+
         return baseCatalog1Mapper.selectAll();
     }
 
@@ -87,5 +152,19 @@ public class AttrServiceImpl implements AttrService{
             baseAttrValue.setAttrId(attrId);
             baseAttrValueMapper.insertSelective(baseAttrValue);
         }
+    }
+
+    @Override
+    public void removeAttr(String attrId) {
+
+        BaseAttrValue baseAttrValue = new BaseAttrValue();
+        baseAttrValue.setAttrId(attrId);
+        List<BaseAttrValue> attrValueList = baseAttrValueMapper.select(baseAttrValue);
+        for (BaseAttrValue attrValue : attrValueList) {
+            baseAttrValueMapper.delete(attrValue);
+
+        }
+
+        baseAttrInfoMapper.deleteByPrimaryKey(attrId);
     }
 }

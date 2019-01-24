@@ -23,6 +23,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>8.5.35</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 </project>

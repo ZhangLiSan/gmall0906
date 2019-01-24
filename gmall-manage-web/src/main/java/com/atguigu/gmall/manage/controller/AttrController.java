@@ -1,10 +1,7 @@
 package com.atguigu.gmall.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.atguigu.gmall.bean.BaseAttrInfo;
-import com.atguigu.gmall.bean.BaseCatalog1;
-import com.atguigu.gmall.bean.BaseCatalog2;
-import com.atguigu.gmall.bean.BaseCatalog3;
+import com.atguigu.gmall.bean.*;
 import com.atguigu.gmall.service.AttrService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +17,40 @@ public class AttrController {
 
 
 
+    @RequestMapping("getAttrValueList")
+    @ResponseBody
+    public List<BaseAttrValue> getAttrValueList(String attrId){
+
+        List<BaseAttrValue> attrValueList = attrService.getAttrValueList(attrId);
+        return attrValueList;
+    }
+
+
     @RequestMapping("saveAttr")
     @ResponseBody
     public String saveAttr(BaseAttrInfo baseAttrInfo){
         attrService.saveAttr(baseAttrInfo);
 
         // 保存属性
+        return "success";
+    }
+
+
+    @RequestMapping("removeAttr")
+    @ResponseBody
+    public String removeAttr(String attrId){
+
+        System.err.print(attrId);
+        attrService.removeAttr(attrId);
+        return "success";
+    }
+
+    @RequestMapping("editAttr")
+    @ResponseBody
+    public String updateAttr(BaseAttrInfo baseAttrInfo){
+
+        System.err.print(baseAttrInfo);
+        attrService.updateAttr(baseAttrInfo);
         return "success";
     }
 

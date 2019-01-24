@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 取值 -->
+<div th:text="${hello}">hello html !</div>
+<!-- 循环 -->
+<div th:each="str:${list}">
+    <div th:text="${str}"></div>
+</div>
+
+<div th:each="str:${list2}" th:text="${str}"></div>
+<!-- 判断 -->
+<div th:if="1==1">该元素存在</div>
+
+<div th:text="(1==0)?'该元素存在':'该元素不存在'"></div>
+
+<!-- 页面引入 -->
+<div th:include="a::b"></div>
+
+<!-- js函数调用 -->
+<a th:href="'javascript:a(\''+${hello}+'\');'">调用函数测试</a>
+
+<!-- 其他情况 -->
+<div th:each="user:${userInfos}" th:text="${user.name}" ></div>
+
+
+<div th:text="${userInfo?.name}" ></div>
+
+<!-- thymeleaf中如果使用了数字格式化函数，数字不允许为空，否则会报类型转化错误-->
+
+<script language="JavaScript">
+
+    function a(hello) {
+        alert("a()"+hello);
+    }
+
+
+</script>
+</body>
+</html>
